@@ -15,6 +15,7 @@ import android.speech.SpeechRecognizer;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.HapticFeedbackConstants;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -33,7 +34,7 @@ import java.util.Map;
 import java.util.Objects;
 
 public final class InputMethodView extends View {
-	static float HEIGHT = 300f;
+	static float HEIGHT = 250f;
 
 	//region Constructor Boilerplate
 	public InputMethodView(final @Nullable Context context) {
@@ -481,8 +482,8 @@ public final class InputMethodView extends View {
 
 		final float centerX = x + (width / 2);
 		final float centerY = y + (height / 2);
-		final float offsetX = (centerX - x) - 40;
-		final float offsetY = (centerY - y) - 40;
+		final float offsetX = (centerX - x) - 35;
+		final float offsetY = (centerY - y) - 35;
 
 		for (final Map.Entry<Motion, Action> entry : keys.entrySet()) {
 			final @NonNull Motion motion = entry.getKey();
@@ -518,7 +519,11 @@ public final class InputMethodView extends View {
 		final int actionRow = (int) Math.floor((line.startY - this.getY()) / this.buttonHeight());
 		final float colFrac = (line.startX - this.getX()) / this.buttonWidth();
 		int actionCol = (int) Math.floor(colFrac);
-
+		if ((actionRow == 0 && (actionCol == 0 || actionCol == 3))
+		 || (actionRow == 2 && (actionCol == 1 || actionCol == 2))) {
+			this.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_PRESS);
+		}
+/*
 		if (actionRow == 3) {
 			if (_numMode && colFrac < 1.5) {
 				actionCol = 0;
@@ -528,7 +533,7 @@ public final class InputMethodView extends View {
 				actionCol = 2;
 			}
 		}
-
+*/
 		final @Nullable Action action = KeyboardActions.ACTIONS
 			.get(actionRow)
 			.get(actionCol)
@@ -606,14 +611,14 @@ public final class InputMethodView extends View {
 
 		final float buttonHeight = buttonHeight();
 		final float buttonWidth = buttonWidth();
-		for (int row = 0; row < 3; ++row) {
+		for (int row = 0; row < 4; ++row) {
 			final float y = row * buttonHeight;
 			for (int col = 0; col < 4; ++col) {
 				final float x = col * buttonWidth;
 				drawButton(canvas, x, y, buttonWidth, buttonHeight, KeyboardActions.ACTIONS.get(row).get(col));
 			}
 		}
-
+/*
 		// render the fourth row manually
 		final float lastRowY = 3 * buttonHeight;
 		final float threeWidth = buttonWidth * 3;
@@ -626,7 +631,7 @@ public final class InputMethodView extends View {
 		}
 
 		drawButton(canvas, threeWidth, lastRowY, buttonWidth, buttonHeight, _actShower);
-
+*/
 		this.trackedTouches.forEach((_id, trackedTouch) -> {
 			final @NonNull Line line = trackedTouch.line;
 			if (line.length() > 1.0f) {
