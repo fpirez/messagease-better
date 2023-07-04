@@ -9,8 +9,8 @@ import androidx.annotation.ColorRes;
 import androidx.annotation.NonNull;
 
 public class KeyboardPaints {
-	static final float STROKE_WIDTH = 10.0f;
-	static final float RADIUS = 20.0f;
+	static final float STROKE_WIDTH = 2.0f;
+	static final float RADIUS = 0.0f;
 
 	private final boolean nightMode;
 
@@ -41,7 +41,7 @@ public class KeyboardPaints {
 		paint.setTextAlign(Paint.Align.CENTER);
 		paint.setColor(getColor(nightMode ? R.color.keyboard_key_text_color_dark : R.color.keyboard_key_text_color_light, resources, theme));
 		paint.setStyle(Paint.Style.FILL);
-		paint.setTextSize(60.0f);
+		paint.setTextSize(65.0f);
 		return paint;
 	}
 
@@ -51,7 +51,7 @@ public class KeyboardPaints {
 	private @NonNull
 	Paint makeSmallKeyTextPaint(final @NonNull Resources resources, final @NonNull Resources.Theme theme) {
 		final Paint paint = makeKeyTextPaint(resources, theme);
-		paint.setTextSize(32.0f);
+		paint.setTextSize(35.0f);
 		return paint;
 	}
 
