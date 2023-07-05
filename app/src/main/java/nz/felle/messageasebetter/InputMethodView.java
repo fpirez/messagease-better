@@ -34,7 +34,7 @@ import java.util.Map;
 import java.util.Objects;
 
 public final class InputMethodView extends View {
-	static float HEIGHT = 250f;
+	static float HEIGHT = 230f;
 
 	//region Constructor Boilerplate
 	public InputMethodView(final @Nullable Context context) {
@@ -483,7 +483,7 @@ public final class InputMethodView extends View {
 		final float centerX = x + (width / 2);
 		final float centerY = y + (height / 2);
 		final float offsetX = (centerX - x) - 35;
-		final float offsetY = (centerY - y) - 35;
+		final float offsetY = (centerY - y) - 30;
 
 		for (final Map.Entry<Motion, Action> entry : keys.entrySet()) {
 			final @NonNull Motion motion = entry.getKey();

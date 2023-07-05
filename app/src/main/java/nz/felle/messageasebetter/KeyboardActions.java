@@ -49,8 +49,8 @@ import java.util.Map;
                             Motion.UP_RIGHT, new SecondaryKeyAction('='),
                             Motion.LEFT, new SecondaryKeyAction('['),
                             Motion.RIGHT, new SecondaryKeyAction(']'),
-                            Motion.DOWN, new KeyAction('p', KeyAction.NONE),
-                            Motion.DOWN_LEFT, new SecondaryKeyAction('|'),
+                            Motion.DOWN_LEFT, new KeyAction('p', KeyAction.NONE),
+                            Motion.DOWN, new SecondaryKeyAction('|'),
                             Motion.DOWN_RIGHT, new SecondaryKeyAction('\\')
                     )
             ),
