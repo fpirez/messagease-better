@@ -48,7 +48,7 @@ import java.util.Map;
 		List.of(
 			// second row, first column
 			Map.of(
-				Motion.NONE, new KeyAction('h', '4'),
+				Motion.NONE, new KeyAction('d', '4'),
 				Motion.UP_LEFT, new SecondaryKeyAction('{'),
 				Motion.LEFT, new SecondaryKeyAction('('),
 				Motion.DOWN_LEFT, new SecondaryKeyAction('['),
@@ -64,7 +64,7 @@ import java.util.Map;
 				Motion.UP_RIGHT, new KeyAction('p', KeyAction.NONE),
 				Motion.RIGHT, new KeyAction('b', KeyAction.NONE),
 				Motion.DOWN_RIGHT, new KeyAction('j', KeyAction.NONE),
-				Motion.DOWN, new KeyAction('d', KeyAction.NONE),
+				Motion.DOWN, new KeyAction('h', KeyAction.NONE),
 				Motion.DOWN_LEFT, new KeyAction('g', KeyAction.NONE),
 				Motion.LEFT, new KeyAction('c', KeyAction.NONE)
 			),
