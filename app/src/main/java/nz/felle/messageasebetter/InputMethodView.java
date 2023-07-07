@@ -15,6 +15,7 @@ import android.speech.SpeechRecognizer;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.HapticFeedbackConstants;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -33,7 +34,8 @@ import java.util.Map;
 import java.util.Objects;
 
 public final class InputMethodView extends View {
-	static float HEIGHT = 300f;
+	static float HEIGHT = 250f;
+	private boolean wasCenterKey = false;
 
 	//region Constructor Boilerplate
 	public InputMethodView(final @Nullable Context context) {
@@ -481,8 +483,8 @@ public final class InputMethodView extends View {
 
 		final float centerX = x + (width / 2);
 		final float centerY = y + (height / 2);
-		final float offsetX = (centerX - x) - 40;
-		final float offsetY = (centerY - y) - 40;
+		final float offsetX = (centerX - x) - 35;
+		final float offsetY = (centerY - y) - 30;
 
 		for (final Map.Entry<Motion, Action> entry : keys.entrySet()) {
 			final @NonNull Motion motion = entry.getKey();
@@ -518,6 +520,11 @@ public final class InputMethodView extends View {
 		final int actionRow = (int) Math.floor((line.startY - this.getY()) / this.buttonHeight());
 		final float colFrac = (line.startX - this.getX()) / this.buttonWidth();
 		int actionCol = (int) Math.floor(colFrac);
+
+		// Single haptic feedback for space
+		if (actionRow == 3) {
+			this.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+		}
 
 		if (actionRow == 3) {
 			if (_numMode && colFrac < 1.5) {
@@ -572,6 +579,19 @@ public final class InputMethodView extends View {
 			final int pointerId = event.getPointerId(i);
 			final float x = event.getX(i);
 			final float y = event.getY(i);
+
+			// Haptic Feedback when entering or leaving central key
+			final int currentRow = (int) Math.floor((y - this.getY()) / this.buttonHeight());
+			final int currentCol = (int) Math.floor((x - this.getX()) / this.buttonWidth());
+			final boolean isCenterKey = currentCol == 1 && currentRow == 1;
+
+			if (wasCenterKey != isCenterKey) {
+				if (isCenterKey) {
+					this.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP);
+				}
+				wasCenterKey = isCenterKey;
+			}
+
 			final @NonNull TrackedTouch trackedTouch = trackedTouches.computeIfAbsent(pointerId, (_id) -> new TrackedTouch(this, pointerId, x, y));
 
 			processed = true;
@@ -579,6 +599,7 @@ public final class InputMethodView extends View {
 
 			if (released) {
 				trackedTouches.remove(pointerId);
+				wasCenterKey = false;
 
 				if (trackedTouch.finish()) {
 					processLine(trackedTouch.line);
